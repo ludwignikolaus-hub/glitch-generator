@@ -59,6 +59,7 @@
 <header>
   <h1>GLITCH GENERATOR</h1>
   <span>— chromatic aberration / CRT / LED subpixel</span>
+  <span style="margin-left:auto; color:#ff3300;">v9 / Oswald only</span>
 </header>
 <div class="layout">
   <aside class="sidebar">
@@ -137,14 +138,11 @@ const offL = Object.assign(document.createElement('canvas'),{width:W,height:H});
 
 let mode = 'dark';
 const FONTS = [
-  { label: 'Impact',      css: 'Impact, Arial Black, sans-serif' },
-  { label: 'Oswald',      css: '"Oswald", Impact, sans-serif' },
-  { label: 'Arial Black', css: '"Arial Black", sans-serif' },
-  { label: 'Georgia',     css: 'Georgia, serif' },
+  { label: 'Oswald', css: '"Oswald", sans-serif' },
 ];
 let lines = [
-  { text:'AN',  size:380, y:42, glitch:true,  font:FONTS[0].css },
-  { text:'AUS', size:380, y:60, glitch:true,  font:FONTS[0].css },
+  { text:'AN',  size:380, y:42, glitch:true,  font:'"Oswald", sans-serif' },
+  { text:'AUS', size:380, y:60, glitch:true,  font:'"Oswald", sans-serif' },
 ];
 
 function setMode(m) {
