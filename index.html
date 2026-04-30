@@ -354,6 +354,12 @@ const offLED = document.createElement('canvas'); offLED.width=W; offLED.height=H
 
 let currentMode = 'dark';
 
+// Preload all Google Fonts explicitly
+async function preloadFonts() {
+  const f = new FontFace('Oswald', 'url(https://fonts.gstatic.com/s/oswald/v53/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiZQ.woff2)', {weight:'700'});
+  await f.load().then(loaded => document.fonts.add(loaded)).catch(()=>{});
+}
+
 const FONTS = [
   { label: 'Impact',      value: 'Impact, Arial Black, sans-serif' },
   { label: 'Oswald',      value: '"Oswald", sans-serif' },
@@ -566,7 +572,7 @@ function exportPng() {
 }
 
 buildUI();
-render();
+preloadFonts().then(() => render());
 </script>
 </body>
 </html>
