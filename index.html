@@ -10,7 +10,6 @@
     font-family: 'Oswald';
     font-style: normal;
     font-weight: 700;
-    font-display: block;
     src: url('fonts/Oswald-Bold.ttf') format('truetype');
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -307,20 +306,15 @@ function exportPng() {
 buildUI();
 const statusEl = document.getElementById('status');
 
-const oswaldFace = new FontFace(
-  'Oswald',
-  "url('fonts/Oswald-Bold.ttf') format('truetype')",
-  { weight: '700', style: 'normal', display: 'block' }
-);
-document.fonts.add(oswaldFace);
-oswaldFace.load().then(function() {
+// CSS @font-face übernimmt das Laden - wir warten nur darauf
+document.fonts.load('700 48px Oswald').then(function() {
   statusEl.textContent = '';
   render();
-}).catch(function(err) {
-  console.warn('Oswald nicht geladen:', err);
-  statusEl.textContent = 'Fallback aktiv';
+}).catch(function() {
   render();
 });
+// Fallback: render nach 2s auch wenn Font nicht lädt
+setTimeout(function() { render(); }, 2000);
 </script>
 </body>
 </html>
