@@ -4,10 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GLITCH GENERATOR</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link id="gfonts" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&family=Oswald:wght@700&display=block" rel="stylesheet">
 <style>
+  @font-face {
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 700;
+    font-display: block;
+    src: url('https://fonts.gstatic.com/s/oswald/v53/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiZQ.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Space Mono';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/spacemono/v13/i7dPIFZifjKcF5UAWdDRaPpZYFKQHwyVd3U.woff2') format('woff2');
+  }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --bg: #0c0c0c; --surface: #141414; --border: #2a2a2a;
@@ -299,31 +311,24 @@ function exportPng() {
   a.click();
 }
 
-// Font loading — warte bis alles bereit
 buildUI();
 const statusEl = document.getElementById('status');
 
-function waitForFonts(cb, tries) {
-  tries = tries || 0;
-  // Teste ob Oswald geladen ist
-  const test = document.createElement('canvas');
-  const tc = test.getContext('2d');
-  tc.font = '900 72px "Oswald", sans-serif';
-  const w1 = tc.measureText('MMMM').width;
-  tc.font = '900 72px sans-serif';
-  const w2 = tc.measureText('MMMM').width;
-  const loaded = Math.abs(w1 - w2) > 2;
-
-  if (loaded || tries > 30) {
-    statusEl.textContent = loaded ? '' : 'Schrift: Fallback aktiv';
-    cb();
-  } else {
-    statusEl.textContent = 'Lade Oswald... (' + tries + ')';
-    setTimeout(() => waitForFonts(cb, tries+1), 200);
-  }
-}
-
-waitForFonts(() => render());
+// FontFace: add() erst, dann load() - so zeigt es MDN
+const oswaldFace = new FontFace(
+  'Oswald',
+  'url(https://fonts.gstatic.com/s/oswald/v53/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiZQ.woff2)',
+  { weight: '700', style: 'normal', display: 'block' }
+);
+document.fonts.add(oswaldFace); // erst add...
+oswaldFace.load().then(function() { // ...dann load
+  statusEl.textContent = '';
+  render();
+}).catch(function(err) {
+  console.warn('Oswald nicht geladen:', err);
+  statusEl.textContent = 'Fallback aktiv';
+  render();
+});
 </script>
 </body>
 </html>
