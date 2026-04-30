@@ -4,21 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GLITCH GENERATOR</title>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <style>
   @font-face {
     font-family: 'Oswald';
     font-style: normal;
     font-weight: 700;
     font-display: block;
-    src: url('https://fonts.gstatic.com/s/oswald/v53/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiZQ.woff2') format('woff2');
-  }
-  @font-face {
-    font-family: 'Space Mono';
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src: url('https://fonts.gstatic.com/s/spacemono/v13/i7dPIFZifjKcF5UAWdDRaPpZYFKQHwyVd3U.woff2') format('woff2');
+    src: url('fonts/Oswald-Bold.ttf') format('truetype');
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -314,14 +307,13 @@ function exportPng() {
 buildUI();
 const statusEl = document.getElementById('status');
 
-// FontFace: add() erst, dann load() - so zeigt es MDN
 const oswaldFace = new FontFace(
   'Oswald',
-  'url(https://fonts.gstatic.com/s/oswald/v53/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiZQ.woff2)',
+  "url('fonts/Oswald-Bold.ttf') format('truetype')",
   { weight: '700', style: 'normal', display: 'block' }
 );
-document.fonts.add(oswaldFace); // erst add...
-oswaldFace.load().then(function() { // ...dann load
+document.fonts.add(oswaldFace);
+oswaldFace.load().then(function() {
   statusEl.textContent = '';
   render();
 }).catch(function(err) {
