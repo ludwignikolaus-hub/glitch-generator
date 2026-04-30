@@ -4,446 +4,202 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GLITCH GENERATOR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link id="gfonts" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&family=Oswald:wght@700&display=block" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Oswald:wght@700&display=swap');
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #0c0c0c;
-    --surface: #141414;
-    --border: #2a2a2a;
-    --text: #e8e8e8;
-    --muted: #666;
-    --accent: #ff3300;
-    --accent2: #2244ff;
-    --mono: 'Space Mono', monospace;
+    --bg: #0c0c0c; --surface: #141414; --border: #2a2a2a;
+    --text: #e8e8e8; --muted: #555; --accent: #ff3300;
   }
-
-  html, body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--mono);
-    min-height: 100vh;
-  }
-
-  header {
-    padding: 2rem;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: baseline;
-    gap: 1.5rem;
-  }
-
-  header h1 {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    color: var(--muted);
-  }
-
-  header span {
-    font-size: 11px;
-    color: #333;
-  }
-
-  .layout {
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    min-height: calc(100vh - 57px);
-  }
-
-  .sidebar {
-    border-right: 1px solid var(--border);
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    overflow-y: auto;
-  }
-
-  .section-title {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.25em;
-    color: var(--muted);
-    text-transform: uppercase;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 0.75rem;
-  }
-
-  .ctrl { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+  html, body { background: var(--bg); color: var(--text); font-family: 'Space Mono', monospace; min-height: 100vh; }
+  header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); display: flex; align-items: baseline; gap: 1rem; }
+  header h1 { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; color: var(--muted); }
+  header span { font-size: 11px; color: #2a2a2a; }
+  .layout { display: grid; grid-template-columns: 300px 1fr; min-height: calc(100vh - 53px); }
+  .sidebar { border-right: 1px solid var(--border); padding: 1.25rem; display: flex; flex-direction: column; gap: 1.25rem; overflow-y: auto; }
+  .sec-title { font-size: 9px; font-weight: 700; letter-spacing: 0.25em; color: var(--muted); padding-bottom: 8px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+  .ctrl { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
   .ctrl:last-child { margin-bottom: 0; }
-
-  .ctrl-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .ctrl label {
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-
-  .ctrl .val {
-    font-size: 10px;
-    color: var(--text);
-    font-weight: 700;
-    min-width: 40px;
-    text-align: right;
-  }
-
-  input[type=range] {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 1px;
-    background: var(--border);
-    outline: none;
-  }
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 10px;
-    height: 10px;
-    background: var(--text);
-    cursor: pointer;
-    border-radius: 0;
-  }
-  input[type=range]::-webkit-slider-thumb:hover {
-    background: var(--accent);
-  }
-
+  .ctrl-row { display: flex; justify-content: space-between; }
+  .ctrl label { font-size: 10px; color: var(--muted); letter-spacing: 0.04em; }
+  .ctrl .val { font-size: 10px; font-weight: 700; color: var(--text); }
+  input[type=range] { -webkit-appearance: none; width: 100%; height: 1px; background: var(--border); outline: none; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; background: var(--text); cursor: pointer; }
+  input[type=range]::-webkit-slider-thumb:hover { background: var(--accent); }
   input[type=text], input[type=number], select {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 11px;
-    padding: 6px 8px;
-    width: 100%;
-    outline: none;
+    background: var(--bg); border: 1px solid var(--border); color: var(--text);
+    font-family: 'Space Mono', monospace; font-size: 11px; padding: 5px 7px; width: 100%; outline: none;
   }
-  input[type=text]:focus, input[type=number]:focus, select:focus {
-    border-color: #444;
-  }
-
-  select { cursor: pointer; }
+  input[type=text]:focus, input[type=number]:focus, select:focus { border-color: #444; }
   select option { background: var(--bg); }
-
-  .text-entry {
-    border: 1px solid var(--border);
-    padding: 10px;
-    margin-bottom: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    position: relative;
-  }
-
-  .text-entry-row {
-    display: grid;
-    grid-template-columns: 1fr 60px;
-    gap: 6px;
-  }
-
-  .text-entry-row3 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 6px;
-  }
-
-  .mini-label {
-    font-size: 9px;
-    color: var(--muted);
-    margin-bottom: 2px;
-    letter-spacing: 0.05em;
-  }
-
-  .del-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 14px;
-    font-family: var(--mono);
-    padding: 0;
-    line-height: 1;
-  }
+  .text-entry { border: 1px solid var(--border); padding: 10px; margin-bottom: 8px; position: relative; display: flex; flex-direction: column; gap: 6px; }
+  .text-entry-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .mini-label { font-size: 9px; color: var(--muted); margin-bottom: 2px; }
+  .del-btn { position: absolute; top: 8px; right: 8px; background: none; border: none; color: var(--muted); cursor: pointer; font-size: 14px; font-family: monospace; }
   .del-btn:hover { color: var(--accent); }
-
-  .add-btn {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    padding: 8px;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-  }
-  .add-btn:hover { border-color: #444; color: var(--text); }
-
-  .export-btn {
-    background: var(--text);
-    border: none;
-    color: var(--bg);
-    font-family: var(--mono);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    padding: 12px;
-    cursor: pointer;
-    width: 100%;
-    text-align: center;
-    margin-top: auto;
-  }
+  .add-btn { background: none; border: 1px solid var(--border); color: var(--muted); font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.1em; padding: 8px; cursor: pointer; width: 100%; text-align: left; }
+  .add-btn:hover { color: var(--text); border-color: #444; }
+  .toggle-row { display: flex; gap: 6px; margin-bottom: 8px; }
+  .toggle-btn { flex: 1; background: none; border: 1px solid var(--border); color: var(--muted); font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.08em; padding: 6px; cursor: pointer; }
+  .toggle-btn.active { border-color: var(--text); color: var(--text); }
+  .export-btn { background: var(--text); border: none; color: var(--bg); font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; padding: 12px; cursor: pointer; width: 100%; margin-top: auto; }
   .export-btn:hover { background: #fff; }
-
-  .preview {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    background: #080808;
-  }
-
-  .canvas-container {
-    position: relative;
-    max-height: calc(100vh - 120px);
-  }
-
-  canvas {
-    display: block;
-    max-width: 100%;
-    max-height: calc(100vh - 120px);
-    object-fit: contain;
-  }
-
-  .toggle-row {
-    display: flex;
-    gap: 8px;
-  }
-
-  .toggle-btn {
-    flex: 1;
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    padding: 6px;
-    cursor: pointer;
-  }
-  .toggle-btn.active {
-    border-color: var(--text);
-    color: var(--text);
-    background: #1a1a1a;
-  }
-
-  @media (max-width: 800px) {
-    .layout { grid-template-columns: 1fr; }
-    .preview { min-height: 50vw; }
-  }
+  .preview { display: flex; align-items: center; justify-content: center; padding: 2rem; background: #080808; }
+  canvas { display: block; max-width: 100%; max-height: calc(100vh - 100px); }
+  #status { font-size: 10px; color: var(--muted); text-align: center; padding: 4px; }
 </style>
 </head>
 <body>
-
 <header>
   <h1>GLITCH GENERATOR</h1>
   <span>— chromatic aberration / CRT / LED subpixel</span>
 </header>
-
 <div class="layout">
   <aside class="sidebar">
-
-    <!-- TEXT -->
-    <div class="section">
-      <div class="section-title">Textelemente</div>
+    <div>
+      <div class="sec-title">Textelemente</div>
       <div id="textList"></div>
       <button class="add-btn" onclick="addLine()">+ Zeile hinzufügen</button>
     </div>
-
-    <!-- MODUS -->
-    <div class="section">
-      <div class="section-title">Grundeinstellung</div>
-      <div class="toggle-row" style="margin-bottom:10px;">
+    <div>
+      <div class="sec-title">Grundeinstellung</div>
+      <div class="toggle-row">
         <button class="toggle-btn active" id="btnDark" onclick="setMode('dark')">DUNKEL</button>
         <button class="toggle-btn" id="btnLight" onclick="setMode('light')">HELL</button>
       </div>
     </div>
-
-    <!-- CHROMATIC ABERRATION -->
-    <div class="section">
-      <div class="section-title">Chromatic Aberration</div>
+    <div>
+      <div class="sec-title">Chromatic Aberration</div>
       <div class="ctrl">
         <div class="ctrl-row"><label>RGB-Versatz</label><span class="val" id="shiftVal">12px</span></div>
-        <input type="range" id="shift" min="2" max="40" value="12" step="1" oninput="updateLabels();render()">
+        <input type="range" id="shift" min="2" max="40" value="12" step="1" oninput="ul();render()">
       </div>
       <div class="ctrl">
-        <div class="ctrl-row"><label>Kanal-Blur (Bleed)</label><span class="val" id="blurVal">6px</span></div>
-        <input type="range" id="blur" min="0" max="30" value="6" step="1" oninput="updateLabels();render()">
+        <div class="ctrl-row"><label>Kanal-Blur</label><span class="val" id="blurVal">6px</span></div>
+        <input type="range" id="blur" min="0" max="30" value="6" step="1" oninput="ul();render()">
       </div>
       <div class="ctrl">
         <div class="ctrl-row"><label>Haupt-Blur</label><span class="val" id="mblurVal">2px</span></div>
-        <input type="range" id="mblur" min="0" max="12" value="2" step="1" oninput="updateLabels();render()">
+        <input type="range" id="mblur" min="0" max="12" value="2" step="1" oninput="ul();render()">
       </div>
     </div>
-
-    <!-- TEXTUR -->
-    <div class="section">
-      <div class="section-title">Textur</div>
+    <div>
+      <div class="sec-title">Textur</div>
       <div class="ctrl">
         <div class="ctrl-row"><label>Grain</label><span class="val" id="grainVal">30</span></div>
-        <input type="range" id="grain" min="0" max="120" value="30" step="1" oninput="updateLabels();render()">
+        <input type="range" id="grain" min="0" max="120" value="30" step="1" oninput="ul();render()">
       </div>
       <div class="ctrl">
         <div class="ctrl-row"><label>Scanlines</label><span class="val" id="soVal">15%</span></div>
-        <input type="range" id="so" min="0" max="80" value="15" step="1" oninput="updateLabels();render()">
+        <input type="range" id="so" min="0" max="80" value="15" step="1" oninput="ul();render()">
       </div>
     </div>
-
-    <!-- LED RASTER -->
-    <div class="section">
-      <div class="section-title">LED / Subpixel-Raster</div>
+    <div>
+      <div class="sec-title">LED / Subpixel-Raster</div>
       <div class="ctrl">
         <div class="ctrl-row"><label>Pixel-Größe</label><span class="val" id="psVal">3px</span></div>
-        <input type="range" id="ps" min="1" max="10" value="3" step="1" oninput="updateLabels();render()">
+        <input type="range" id="ps" min="1" max="10" value="3" step="1" oninput="ul();render()">
       </div>
       <div class="ctrl">
         <div class="ctrl-row"><label>Gap</label><span class="val" id="pgVal">0px</span></div>
-        <input type="range" id="pg" min="0" max="4" value="0" step="1" oninput="updateLabels();render()">
+        <input type="range" id="pg" min="0" max="4" value="0" step="1" oninput="ul();render()">
       </div>
       <div class="ctrl">
         <div class="ctrl-row"><label>Raster-Opazität</label><span class="val" id="poVal">0%</span></div>
-        <input type="range" id="po" min="0" max="100" value="0" step="1" oninput="updateLabels();render()">
+        <input type="range" id="po" min="0" max="100" value="0" step="1" oninput="ul();render()">
       </div>
       <div class="ctrl">
         <div class="ctrl-row"><label>Subpixel-Blur</label><span class="val" id="pbVal">0px</span></div>
-        <input type="range" id="pb" min="0" max="6" value="0" step="1" oninput="updateLabels();render()">
+        <input type="range" id="pb" min="0" max="6" value="0" step="1" oninput="ul();render()">
       </div>
     </div>
-
+    <div id="status">Lade Schriften...</div>
     <button class="export-btn" onclick="exportPng()">PNG EXPORTIEREN</button>
-
   </aside>
-
   <main class="preview">
-    <div class="canvas-container">
-      <canvas id="c" width="900" height="1200"></canvas>
-    </div>
+    <canvas id="c" width="900" height="1200"></canvas>
   </main>
 </div>
-
 <script>
 const c = document.getElementById('c');
 const ctx = c.getContext('2d');
 const W = 900, H = 1200;
+const offR = Object.assign(document.createElement('canvas'),{width:W,height:H});
+const offG = Object.assign(document.createElement('canvas'),{width:W,height:H});
+const offB = Object.assign(document.createElement('canvas'),{width:W,height:H});
+const offL = Object.assign(document.createElement('canvas'),{width:W,height:H});
 
-const offR   = document.createElement('canvas'); offR.width=W;   offR.height=H;
-const offG   = document.createElement('canvas'); offG.width=W;   offG.height=H;
-const offB   = document.createElement('canvas'); offB.width=W;   offB.height=H;
-const offLED = document.createElement('canvas'); offLED.width=W; offLED.height=H;
-
-let currentMode = 'dark';
-
-// Preload all Google Fonts explicitly
-async function preloadFonts() {
-  const f = new FontFace('Oswald', 'url(https://fonts.gstatic.com/s/oswald/v53/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiZQ.woff2)', {weight:'700'});
-  await f.load().then(loaded => document.fonts.add(loaded)).catch(()=>{});
-}
-
+let mode = 'dark';
 const FONTS = [
-  { label: 'Impact',      value: 'Impact, Arial Black, sans-serif' },
-  { label: 'Oswald',      value: '"Oswald", sans-serif' },
-  { label: 'Arial Black', value: '"Arial Black", sans-serif' },
-  { label: 'Georgia',     value: 'Georgia, serif' },
+  { label: 'Impact',      css: 'Impact, Arial Black, sans-serif' },
+  { label: 'Oswald',      css: '"Oswald", Impact, sans-serif' },
+  { label: 'Arial Black', css: '"Arial Black", sans-serif' },
+  { label: 'Georgia',     css: 'Georgia, serif' },
 ];
-
 let lines = [
-  { text: 'AN',  size: 380, y: 42, glitch: true,  font: FONTS[0].value },
-  { text: 'AUS', size: 380, y: 60, glitch: true,  font: FONTS[0].value },
+  { text:'AN',  size:380, y:42, glitch:true,  font:FONTS[0].css },
+  { text:'AUS', size:380, y:60, glitch:true,  font:FONTS[0].css },
 ];
 
 function setMode(m) {
-  currentMode = m;
+  mode = m;
   document.getElementById('btnDark').classList.toggle('active', m==='dark');
   document.getElementById('btnLight').classList.toggle('active', m==='light');
   render();
 }
-
-function addLine() {
-  lines.push({ text: 'TEXT', size: 80, y: 75, glitch: false, font: FONTS[0].value });
-  buildUI(); render();
-}
-function removeLine(i) {
-  lines.splice(i, 1); buildUI(); render();
-}
+function addLine() { lines.push({text:'TEXT',size:100,y:75,glitch:false,font:FONTS[0].css}); buildUI(); render(); }
+function removeLine(i) { lines.splice(i,1); buildUI(); render(); }
 
 function buildUI() {
   const list = document.getElementById('textList');
   list.innerHTML = '';
-  lines.forEach((l, i) => {
+  lines.forEach((l,i) => {
     const el = document.createElement('div');
     el.className = 'text-entry';
+    const fontOpts = FONTS.map(f =>
+      `<option value="${f.css}" ${l.font===f.css?'selected':''}>${f.label}</option>`
+    ).join('');
     el.innerHTML = `
       <button class="del-btn" onclick="removeLine(${i})">×</button>
       <div class="text-entry-row">
-        <div>
-          <div class="mini-label">TEXT</div>
-          <input type="text" value="${l.text}" oninput="lines[${i}].text=this.value;render()">
-        </div>
-        <div>
-          <div class="mini-label">GRÖSSE</div>
-          <input type="number" value="${l.size}" min="10" max="700" style="text-align:center" oninput="lines[${i}].size=+this.value;render()">
-        </div>
+        <div><div class="mini-label">TEXT</div>
+          <input type="text" value="${l.text}" oninput="lines[${i}].text=this.value;render()"></div>
+        <div><div class="mini-label">GRÖSSE</div>
+          <input type="number" value="${l.size}" min="10" max="700" style="text-align:center" oninput="lines[${i}].size=+this.value;render()"></div>
       </div>
       <div class="text-entry-row">
-        <div>
-          <div class="mini-label">Y-POSITION %</div>
-          <input type="number" value="${l.y}" min="1" max="99" style="text-align:center" oninput="lines[${i}].y=+this.value;render()">
-        </div>
-        <div>
-          <div class="mini-label">EFFEKT</div>
+        <div><div class="mini-label">Y-POS %</div>
+          <input type="number" value="${l.y}" min="1" max="99" style="text-align:center" oninput="lines[${i}].y=+this.value;render()"></div>
+        <div><div class="mini-label">EFFEKT</div>
           <select onchange="lines[${i}].glitch=this.value==='true';render()">
             <option value="true" ${l.glitch?'selected':''}>GLITCH</option>
             <option value="false" ${!l.glitch?'selected':''}>CLEAN</option>
-          </select>
-        </div>
+          </select></div>
       </div>
-      <div>
-        <div class="mini-label">SCHRIFT</div>
-        <select onchange="lines[${i}].font=this.value;render()">
-          ${FONTS.map(f => `<option value="${f.value}" ${l.font===f.value?'selected':''}>${f.label}</option>`).join('')}
-        </select>
+      <div><div class="mini-label">SCHRIFT</div>
+        <select onchange="lines[${i}].font=this.value;render()">${fontOpts}</select>
       </div>`;
     list.appendChild(el);
   });
 }
 
-function getV() {
+function gv() {
   return {
-    mode:  currentMode,
     shift: +document.getElementById('shift').value,
     blur:  +document.getElementById('blur').value,
     mblur: +document.getElementById('mblur').value,
     grain: +document.getElementById('grain').value,
-    so:    +document.getElementById('so').value / 100,
+    so:    +document.getElementById('so').value/100,
     ps:    +document.getElementById('ps').value,
     pg:    +document.getElementById('pg').value,
-    po:    +document.getElementById('po').value / 100,
+    po:    +document.getElementById('po').value/100,
     pb:    +document.getElementById('pb').value,
   };
 }
 
-function updateLabels() {
+function ul() {
   document.getElementById('shiftVal').textContent = document.getElementById('shift').value+'px';
   document.getElementById('blurVal').textContent  = document.getElementById('blur').value+'px';
   document.getElementById('mblurVal').textContent = document.getElementById('mblur').value+'px';
@@ -455,35 +211,32 @@ function updateLabels() {
   document.getElementById('pbVal').textContent    = document.getElementById('pb').value+'px';
 }
 
-function drawText(tc, txt, size, font, cx, cy, ox, blurPx) {
+function drawT(tc, txt, size, font, cx, cy, ox, bl) {
   tc.save();
-  tc.filter = blurPx > 0 ? `blur(${blurPx}px)` : 'none';
+  tc.filter = bl>0 ? `blur(${bl}px)` : 'none';
   tc.font = `900 ${size}px ${font}`;
   tc.textAlign = 'center';
   tc.textBaseline = 'middle';
   tc.fillStyle = '#ffffff';
-  tc.fillText(txt, cx + ox, cy);
+  tc.fillText(txt, cx+ox, cy);
   tc.restore();
 }
 
 function render() {
-  const v = getV();
-  const isDark = v.mode === 'dark';
+  const v = gv();
+  const isDark = mode==='dark';
   const bg = isDark ? '#0a0a0a' : '#dddbd8';
-
-  [offR, offG, offB].forEach(o => o.getContext('2d').clearRect(0,0,W,H));
-  const rC = offR.getContext('2d');
-  const gC = offG.getContext('2d');
-  const bC = offB.getContext('2d');
+  [offR,offG,offB].forEach(o => o.getContext('2d').clearRect(0,0,W,H));
+  const rC=offR.getContext('2d'), gC=offG.getContext('2d'), bC=offB.getContext('2d');
 
   lines.forEach(l => {
-    const cx = W/2, cy = H*(l.y/100);
+    const cx=W/2, cy=H*(l.y/100);
     if (l.glitch) {
-      drawText(rC, l.text, l.size, l.font, cx, cy, -v.shift, v.blur);
-      drawText(bC, l.text, l.size, l.font, cx, cy, +v.shift, v.blur);
-      drawText(gC, l.text, l.size, l.font, cx, cy,  0, Math.max(0, v.blur-2));
+      drawT(rC,l.text,l.size,l.font,cx,cy,-v.shift,v.blur);
+      drawT(bC,l.text,l.size,l.font,cx,cy,+v.shift,v.blur);
+      drawT(gC,l.text,l.size,l.font,cx,cy,0,Math.max(0,v.blur-2));
     } else {
-      [rC,gC,bC].forEach(tc => drawText(tc, l.text, l.size, l.font, cx, cy, 0, v.mblur));
+      [rC,gC,bC].forEach(tc=>drawT(tc,l.text,l.size,l.font,cx,cy,0,v.mblur));
     }
   });
 
@@ -491,88 +244,86 @@ function render() {
   ctx.fillStyle = bg;
   ctx.fillRect(0,0,W,H);
 
-  const tmp = document.createElement('canvas'); tmp.width=W; tmp.height=H;
+  const tmp = Object.assign(document.createElement('canvas'),{width:W,height:H});
   const tc = tmp.getContext('2d');
 
   function comp(off, tint) {
     tc.clearRect(0,0,W,H);
-    tc.fillStyle = tint;
-    tc.fillRect(0,0,W,H);
-    tc.globalCompositeOperation = 'destination-in';
-    tc.drawImage(off, 0,0);
-    tc.globalCompositeOperation = 'source-over';
-    ctx.globalCompositeOperation = isDark ? 'screen' : 'multiply';
-    ctx.globalAlpha = 0.88;
-    ctx.drawImage(tmp,0,0);
+    tc.fillStyle = tint; tc.fillRect(0,0,W,H);
+    tc.globalCompositeOperation='destination-in'; tc.drawImage(off,0,0);
+    tc.globalCompositeOperation='source-over';
+    ctx.globalCompositeOperation=isDark?'screen':'multiply';
+    ctx.globalAlpha=0.88; ctx.drawImage(tmp,0,0);
   }
-
-  comp(offR, isDark ? '#ff2200' : '#cc0011');
-  comp(offB, isDark ? '#2244ff' : '#1100cc');
-
+  comp(offR, isDark?'#ff2200':'#cc0011');
+  comp(offB, isDark?'#2244ff':'#1100cc');
   tc.clearRect(0,0,W,H);
-  tc.fillStyle = isDark ? '#ffffff' : '#000000';
-  tc.fillRect(0,0,W,H);
-  tc.globalCompositeOperation = 'destination-in';
-  tc.drawImage(offG,0,0);
-  tc.globalCompositeOperation = 'source-over';
-  ctx.globalCompositeOperation = isDark ? 'screen' : 'multiply';
-  ctx.globalAlpha = isDark ? 1 : 0.95;
-  ctx.drawImage(tmp,0,0);
+  tc.fillStyle=isDark?'#ffffff':'#000000'; tc.fillRect(0,0,W,H);
+  tc.globalCompositeOperation='destination-in'; tc.drawImage(offG,0,0);
+  tc.globalCompositeOperation='source-over';
+  ctx.globalCompositeOperation=isDark?'screen':'multiply';
+  ctx.globalAlpha=isDark?1:0.95; ctx.drawImage(tmp,0,0);
+  ctx.globalAlpha=1; ctx.globalCompositeOperation='source-over';
 
-  ctx.globalAlpha = 1;
-  ctx.globalCompositeOperation = 'source-over';
-
-  // LED Raster
-  if (v.po > 0) {
-    const lc = offLED.getContext('2d');
-    lc.clearRect(0,0,W,H);
-    const step = v.ps + v.pg;
-    const cols = ['#ff0000','#00ff00','#0000ff'];
-    if (v.pb > 0) lc.filter = `blur(${v.pb}px)`; else lc.filter='none';
-    for (let x=0; x<W; x+=step) {
-      lc.fillStyle = cols[Math.floor(x/step)%3];
-      lc.fillRect(x, 0, v.ps, H);
-    }
+  if (v.po>0) {
+    const lc=offL.getContext('2d'); lc.clearRect(0,0,W,H);
+    const step=v.ps+v.pg, cols=['#ff0000','#00ff00','#0000ff'];
+    if(v.pb>0) lc.filter=`blur(${v.pb}px)`; else lc.filter='none';
+    for(let x=0;x<W;x+=step){ lc.fillStyle=cols[Math.floor(x/step)%3]; lc.fillRect(x,0,v.ps,H); }
     lc.filter='none';
-    ctx.globalCompositeOperation = 'screen';
-    ctx.globalAlpha = v.po;
-    ctx.drawImage(offLED,0,0);
-    ctx.globalAlpha = 1;
-    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalCompositeOperation='screen'; ctx.globalAlpha=v.po; ctx.drawImage(offL,0,0);
+    ctx.globalAlpha=1; ctx.globalCompositeOperation='source-over';
   }
-
-  // Scanlines
-  if (v.so > 0) {
-    for (let y=0; y<H; y+=4) {
-      ctx.fillStyle = isDark ? `rgba(0,0,0,${v.so})` : `rgba(100,95,110,${v.so})`;
+  if (v.so>0) {
+    for(let y=0;y<H;y+=4){
+      ctx.fillStyle=isDark?`rgba(0,0,0,${v.so})`:`rgba(100,95,110,${v.so})`;
       ctx.fillRect(0,y,W,2);
     }
   }
-
-  // Grain
-  if (v.grain > 0) {
-    const id = ctx.getImageData(0,0,W,H);
-    const d = id.data;
-    const g = v.grain;
-    for (let i=0; i<d.length; i+=4) {
-      const n = (Math.random()-0.5)*g;
-      d[i]   = Math.max(0,Math.min(255,d[i]+n));
-      d[i+1] = Math.max(0,Math.min(255,d[i+1]+n));
-      d[i+2] = Math.max(0,Math.min(255,d[i+2]+n));
+  if (v.grain>0) {
+    const id=ctx.getImageData(0,0,W,H), d=id.data, g=v.grain;
+    for(let i=0;i<d.length;i+=4){
+      const n=(Math.random()-0.5)*g;
+      d[i]=Math.max(0,Math.min(255,d[i]+n));
+      d[i+1]=Math.max(0,Math.min(255,d[i+1]+n));
+      d[i+2]=Math.max(0,Math.min(255,d[i+2]+n));
     }
     ctx.putImageData(id,0,0);
   }
 }
 
 function exportPng() {
-  const link = document.createElement('a');
-  link.download = 'glitch_poster.png';
-  link.href = c.toDataURL('image/png');
-  link.click();
+  const a=document.createElement('a');
+  a.download='glitch_poster.png';
+  a.href=c.toDataURL('image/png');
+  a.click();
 }
 
+// Font loading — warte bis alles bereit
 buildUI();
-preloadFonts().then(() => render());
+const statusEl = document.getElementById('status');
+
+function waitForFonts(cb, tries) {
+  tries = tries || 0;
+  // Teste ob Oswald geladen ist
+  const test = document.createElement('canvas');
+  const tc = test.getContext('2d');
+  tc.font = '900 72px "Oswald", sans-serif';
+  const w1 = tc.measureText('MMMM').width;
+  tc.font = '900 72px sans-serif';
+  const w2 = tc.measureText('MMMM').width;
+  const loaded = Math.abs(w1 - w2) > 2;
+
+  if (loaded || tries > 30) {
+    statusEl.textContent = loaded ? '' : 'Schrift: Fallback aktiv';
+    cb();
+  } else {
+    statusEl.textContent = 'Lade Oswald... (' + tries + ')';
+    setTimeout(() => waitForFonts(cb, tries+1), 200);
+  }
+}
+
+waitForFonts(() => render());
 </script>
 </body>
 </html>
